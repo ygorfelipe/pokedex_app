@@ -12,6 +12,8 @@ class PokemonModel {
   final String weight;
   final List<dynamic> weaknesses;
   final List<dynamic>? nextEvolution;
+  final String candy;
+  final num spawnChance;
   PokemonModel({
     required this.id,
     required this.number,
@@ -22,6 +24,8 @@ class PokemonModel {
     required this.weight,
     required this.weaknesses,
     required this.nextEvolution,
+    required this.candy,
+    required this.spawnChance,
   });
 
   Map<String, dynamic> toMap() {
@@ -35,6 +39,8 @@ class PokemonModel {
       'weight': weight,
       'weaknesses': weaknesses,
       'next_evolution': nextEvolution?.map((x) => x.toMap()).toList(),
+      'candy': candy,
+      'spawn_chance': spawnChance,
     };
   }
 
@@ -56,6 +62,8 @@ class PokemonModel {
               ),
             )
           : null,
+      candy: map['candy'] as String,
+      spawnChance: map['spawn_chance'] as num,
     );
   }
 
@@ -66,6 +74,6 @@ class PokemonModel {
 
   @override
   String toString() {
-    return 'PokemonModel(id: $id, num: $number, name: $name, img: $img, type: $type, height: $height, weight: $weight, weaknesses: $weaknesses, next_evolution: $nextEvolution)';
+    return 'PokemonModel(id: $id, num: $number, name: $name, img: $img, type: $type, height: $height, weight: $weight, weaknesses: $weaknesses, next_evolution: $nextEvolution, candy: $candy, spawn_chance: $spawnChance)';
   }
 }

@@ -33,7 +33,7 @@ class PokemonRepositoryImpl implements PokemonRepository {
   }
 
   @override
-  Future<PokemonModel> getById(int id) async {
+  Future<PokemonModel> getPokemonById(int id) async {
     try {
       final response = await _dio.unauth().get(
           'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json');
@@ -44,7 +44,7 @@ class PokemonRepositoryImpl implements PokemonRepository {
           .where((i) => i['id'] == id)
           .first;
 
-      final rest = PokemonModel(
+      final result = PokemonModel(
         id: resultResponse['id'],
         number: resultResponse['num'],
         name: resultResponse['name'],
@@ -54,11 +54,37 @@ class PokemonRepositoryImpl implements PokemonRepository {
         weight: resultResponse['weight'],
         weaknesses: resultResponse['weaknesses'],
         nextEvolution: resultResponse['next_evolution'],
+        candy: resultResponse['candy'],
+        spawnChance: resultResponse['spawn_chance'],
       );
-      return rest;
+
+      return result;
     } on DioException catch (e, s) {
       log('Erro ao buscar lista de pokemons', error: e, stackTrace: s);
       throw RepositoryException(message: 'Erro ao buscar pokemons');
+    }
+  }
+
+  @override
+  Future<List<PokemonModel>> findAllTeste(String? name) async {
+    try {
+      final pokemonResult = await _dio.unauth().get(
+        'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json',
+        queryParameters: {
+          if (name != null) 'name': name,
+        },
+      );
+
+      final pokemonResponse = jsonDecode(pokemonResult.data);
+
+      final resultResponse = (pokemonResponse['pokemon'] as List)
+          .map((p) => PokemonModel.fromMap(p))
+          .toList();
+
+      return resultResponse;
+    } on DioException catch (e, s) {
+      log('Erro ao buscar todos os pokemons', error: e, stackTrace: s);
+      throw RepositoryException(message: 'Erro ao buscar todos os pokemons');
     }
   }
 }

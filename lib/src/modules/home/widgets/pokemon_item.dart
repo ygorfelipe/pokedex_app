@@ -4,7 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import '../../../core/ui/styles/colors_app.dart';
 import '../../../core/ui/styles/text_styles.dart';
 import '../../../model/pokemon/pokemon_model.dart';
-import '../details/pokemon_detail_controller.dart';
+import '../home_controller.dart';
 
 class PokemonItem extends StatelessWidget {
   final PokemonModel pokemon;
@@ -15,12 +15,12 @@ class PokemonItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.read<PokemonDetailController>().loadPokemon(pokemon.id);
+        context.read<HomeController>().getPokemon(pokemon);
       },
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Card(
-          elevation: 5,
+          elevation: 10,
           shape: RoundedRectangleBorder(
             side: BorderSide(color: Colors.grey[100]!),
             borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -32,6 +32,7 @@ class PokemonItem extends StatelessWidget {
                 Expanded(
                   child: Image.network(
                     pokemon.img,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 Text(

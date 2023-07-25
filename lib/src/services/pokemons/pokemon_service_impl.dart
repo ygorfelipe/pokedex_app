@@ -11,5 +11,10 @@ class PokemonServiceImpl implements PokemonService {
   Future<List<PokemonModel>> findAll() => _pokemonRepository.findAll();
 
   @override
-  Future<PokemonModel> getById(int id) => _pokemonRepository.getById(id);
+  Future<PokemonModel> getPokemonById(int id) => _pokemonRepository.getPokemonById(id);
+
+  @override
+  Future<List<PokemonModel>> findAllTeste(String? name) =>
+      _pokemonRepository.findAllTeste(name);
+
 }
