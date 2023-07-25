@@ -21,7 +21,6 @@ class _HomePageState extends State<HomePage> with Loader, Messages {
 
   @override
   void initState() {
-    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       statusDisposer = reaction((_) => controller.status, (status) async {
         switch (status) {
@@ -39,27 +38,33 @@ class _HomePageState extends State<HomePage> with Loader, Messages {
             break;
           case HomeStateStatus.selectedPokemon:
             hideLoader();
-
             final pokemonSelected = controller.pokemonSelected;
             var uri = '/home/detail';
             if (pokemonSelected != null) {
               uri += '?id${pokemonSelected.id}';
             }
             await Modular.to.pushNamed(uri);
-            controller.loadPokemon();
             break;
         }
       });
       controller.loadPokemon();
     });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    statusDisposer();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('HomePage'),
+        title: const Text('Pokedex'),
       ),
+
       body: Observer(builder: (_) {
         return GridView.builder(
           itemCount: controller.pokemons.length,
@@ -70,8 +75,9 @@ class _HomePageState extends State<HomePage> with Loader, Messages {
             crossAxisSpacing: 0,
           ),
           itemBuilder: (context, index) {
-            final pokemonModel = controller.pokemons[index];
-            return PokemonItem(pokemon: pokemonModel);
+            return PokemonItem(
+              pokemon: controller.pokemons[index],
+            );
           },
         );
       }),

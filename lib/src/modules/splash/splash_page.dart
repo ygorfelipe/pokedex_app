@@ -81,7 +81,7 @@ class _SplashPageState extends State<SplashPage> with Loader, Messages {
               height: 40,
               child: ElevatedButton(
                 onPressed: () {
-                  Modular.to.navigate('/home/');
+                  Modular.to.navigate('/pokemon/');
                 },
                 child: const Text('Acessar'),
               ),

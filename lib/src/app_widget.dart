@@ -12,7 +12,7 @@ class AppWidget extends StatelessWidget {
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      darkTheme: ThemeData.dark(),
+      // darkTheme: ThemeData.dark(),
       title: 'Pokedex',
       theme: ThemeConfig.theme,
       routeInformationParser: Modular.routeInformationParser,
